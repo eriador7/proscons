@@ -1,0 +1,4 @@
+include proscons/schema.sql
+graft proscons/static
+graft proscons/templates
+global-exclude *.pyc
