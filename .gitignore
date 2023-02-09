@@ -1,3 +1,6 @@
 venv/
 instance/
-*.pyc
+*.pycr
+.vscode/
+__pycache__
+migrations/

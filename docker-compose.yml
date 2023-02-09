@@ -1,0 +1,26 @@
+version: "3.9"  # optional since v1.27.0
+services:
+  web:
+    build: .
+    ports:
+      - "8080:5000"
+    environment:
+      - FLASK_SQLALCHEMY_DATABASE_URI=postgresql://postgres:secret_db_pwd@db:5432
+      - FLASK_SECRET_KEY=secret_key_tbd
+    depends_on:
+      - db
+      - setup
+  db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_PASSWORD=secret_db_pwd
+  # idea for "setup" container: https://stackoverflow.com/a/64153124
+  setup:
+    build: .
+    environment:
+      - FLASK_SQLALCHEMY_DATABASE_URI=postgresql://postgres:secret_db_pwd@db:5432
+      - FLASK_ADMIN_PWD=P@ssw0rd
+    depends_on:
+      - db
+    restart: "no"
+    entrypoint: [ "bash", "-c", "sleep 10 && source venv/bin/activate &&  flask db init && flask db migrate && flask db upgrade && flask init-db"]

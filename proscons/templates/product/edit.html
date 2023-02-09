@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Home{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<form action="/product/edit/" method="POST">
+
+  {{ form.name.label }} {{ form.name() }}
+  {{ form.description.label }} {{ form.description() }}
+  {{ form.company.label }}  {{ form.company() }}
+</form>
+{% endblock %}
