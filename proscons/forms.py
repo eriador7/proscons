@@ -12,6 +12,14 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Sign In')
 
 # Eigententwicklung
+class RegisterForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    email = StringField('E-Mail', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    password2 = PasswordField('Repeat Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField("Register")
+
+# Eigententwicklung
 class ProductForm(FlaskForm):
     name = StringField("Product name", validators=[DataRequired()])
     description = TextAreaField("Description", validators=[DataRequired()])

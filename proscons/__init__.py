@@ -52,3 +52,4 @@ def init_db_command():
     db.session.add(admin_user)
     db.session.commit()
     click.echo('Initialized the database.')
+
