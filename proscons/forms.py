@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, FileField, TextAreaField, SelectField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
+from flask_wtf.file import FileAllowed
 from . import db
 from .model import Company
 
@@ -24,7 +25,7 @@ class ProductForm(FlaskForm):
     name = StringField("Product name", validators=[DataRequired()])
     description = TextAreaField("Description", validators=[DataRequired()])
     company = SelectField("Company")
-    image = FileField("Product logo")
+    image = FileField("Product logo", validators=[FileAllowed(['png'], "Only png images allowed")])
     submit = SubmitField()
     
 # Eigenentwicklung    

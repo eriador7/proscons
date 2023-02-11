@@ -5,6 +5,7 @@ from . import db
 from .forms import ProductForm
 from .model import Company, Product
 from flask_login import login_required, current_user
+from base64 import b64encode
 
 bp = Blueprint('product', __name__, url_prefix='/product')
 
@@ -24,7 +25,7 @@ def add_product():
         p.company_id = form.company.data
         p.name = form.name.data
         p.user_id = current_user.id
-        #p.image = form.image.data
+        p.image = form.image.data.stream.read()
         db.session.add(p)
         db.session.commit()
         flash(f"Successfully created {p.name}")
@@ -46,7 +47,12 @@ def edit_product(productid):
         prod.description = form.description.data
         prod.company_id = form.company.data
         prod.name = form.name.data
+        if form.image.data:
+            prod.image = form.image.data.stream.read()
         db.session.commit()
         flash("Saved changes")
     form.company.data = str(prod.company_id)
-    return render_template("product/edit.html", form=form, id=prod.id)
+    imgdata = None
+    if prod.image:
+        imgdata = b64encode(prod.image).decode()
+    return render_template("product/edit.html", form=form, id=prod.id, imgdata=imgdata)

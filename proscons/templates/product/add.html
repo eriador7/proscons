@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-<form action="/product/add" method="POST">
+<form action="/product/add" method="POST" enctype="multipart/form-data">
   {{ form.csrf_token() }}
   {{ form.name.label }} {% for error in form.name.errors %}<span>{{ error }}</span>{% endfor %} {{ form.name() }}
   {{ form.description.label }} {% for error in form.description.errors %}<span>{{ error }}</span>{% endfor %} {{ form.description() }}
