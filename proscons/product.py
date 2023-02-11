@@ -4,19 +4,49 @@ from flask import (
 from . import db
 from .forms import ProductForm
 from .model import Company, Product
+from flask_login import login_required, current_user
 
 bp = Blueprint('product', __name__, url_prefix='/product')
 
-@bp.route("/add")
+@bp.route('/')
+def list_products():
+    return render_template("product/list.html", products=Product.query.order_by(Product.name).all())
+
+@bp.route("/add", methods=["GET", "POST"])
+@login_required
 def add_product():
     form = ProductForm()
-    form.company.choices = [(c.id, c.name) for c in db.session.execute(db.select(Company).order_by(Company.name)).scalars()]
-    return render_template("product/add_update.html", form=form)
+    #form.submit.label.text = "Add Product"
+    form.company.choices = [(c.id, c.name) for c in Company.query.order_by(Company.name).all()]
+    if form.validate_on_submit():
+        p = Product()
+        p.description = form.description.data
+        p.company_id = form.company.data
+        p.name = form.name.data
+        p.user_id = current_user.id
+        #p.image = form.image.data
+        db.session.add(p)
+        db.session.commit()
+        flash(f"Successfully created {p.name}")
+        return redirect(url_for("index.index"))
+    return render_template("product/add.html", form=form)
 
-@bp.route("/edit/<productid>")
+@bp.route("/edit/<productid>", methods=["GET", "POST"])
+@login_required
 def edit_product(productid):
     prod = db.session.query(Product).get(productid)
+    if not prod:
+        return abort(404)
+    if current_user.id != prod.user_id:
+        return abort(403)
     form = ProductForm(obj=prod)
-    form.company.choices = [(c.id, c.name) for c in db.session.execute(db.select(Company).order_by(Company.name)).scalars()]
-    form.company.data = prod.company_id
-    return render_template("product/edit.html", form=form)
+    #form.submit.label.text = "Update Product"
+    form.company.choices = [(c.id, c.name) for c in Company.query.order_by(Company.name).all()]
+    if form.validate_on_submit():
+        prod.description = form.description.data
+        prod.company_id = form.company.data
+        prod.name = form.name.data
+        db.session.commit()
+        flash("Saved changes")
+    form.company.data = str(prod.company_id)
+    return render_template("product/edit.html", form=form, id=prod.id)

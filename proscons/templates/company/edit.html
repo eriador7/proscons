@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Edit Product{% endblock %}</h1>
+  <h1>{% block title %}Edit Company{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
-<form action="/product/edit/{{ id }}" method="POST">
+<form action="/company/edit/{{ id }}" method="POST">
   {{ form.csrf_token() }}
   {{ form.name.label }} {{ form.name() }}
   {{ form.description.label }} {{ form.description() }}
-  {{ form.company.label }}  {{ form.company() }}
+  {{ form.country.label }}  {{ form.country() }}
   {{ form.submit() }}
 </form>
 {% endblock %}

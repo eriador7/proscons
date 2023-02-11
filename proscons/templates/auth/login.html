@@ -6,7 +6,7 @@
 
 {% block content %}
 <form method="POST" action="/auth/login">
-  {{ form.csrf_token }}
+  {{ form.csrf_token() }}
   {{ form.username.label }} {{ form.username(size=20) }}
   {{ form.password.label }} {{ form.password(size=20) }}
   {{ form.remember_me.label }} {{ form.remember_me(size=20) }}

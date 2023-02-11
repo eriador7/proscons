@@ -34,6 +34,9 @@ def create_app():
     from . import routes
     app.register_blueprint(routes.bp)
 
+    from . import company
+    app.register_blueprint(company.bp)
+
     from . import product
     app.register_blueprint(product.bp)
 

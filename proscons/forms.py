@@ -24,12 +24,16 @@ class ProductForm(FlaskForm):
     name = StringField("Product name", validators=[DataRequired()])
     description = TextAreaField("Description", validators=[DataRequired()])
     company = SelectField("Company")
+    image = FileField("Product logo")
+    submit = SubmitField()
     
 # Eigenentwicklung    
 class CompanyForm(FlaskForm):
-    name = StringField("Product name", validators=[DataRequired()])
+    name = StringField("Company name", validators=[DataRequired()])
     country = StringField("Home country")
-    image = FileField("Company logo")
+    description = StringField()
+    submit = SubmitField()
+
 
 # Eigententwicklung
 class Argument(FlaskForm):

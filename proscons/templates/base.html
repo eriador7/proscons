@@ -1,9 +1,12 @@
 <!doctype html>
-<title>{% block title %}{% endblock %} - Flaskr</title>
+<title>{% block title %}{% endblock %} - ProsCons</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <nav>
-  <h1>Flaskr</h1>
+  <h1>PosCons</h1>
   <ul>
+    <li><a href="{{ url_for('index.index')}}">Home</a></li>
+    <li><a href="{{ url_for('company.list_companies')}}">Companies</a></li>
+    <li><a href="{{ url_for('product.list_products')}}">Products</a></li>
     {% if current_user.is_authenticated %}
       <li><span>Logged in as {{ current_user.username }}</span>
       <li><a href="{{ url_for('auth.logout') }}">Log Out</a>

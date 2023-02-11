@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Companies{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+{% if current_user.is_authenticated %}
+  <a href="{{ url_for('company.add_company') }}">Add Company</a>
+{% endif %}
+<ul>
+  {% for comp in companies %}
+    <li>
+      {{ comp.name }}
+      {% if current_user.is_authenticated and comp.user_id == current_user.id %}
+        <a href="{{ url_for('company.edit_company', companyid=comp.id) }}">Edit</a>
+      {% endif %}
+    </li>
+  {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Products{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+{% if current_user.is_authenticated %}
+  <a href="{{ url_for('product.add_product') }}">Add Product</a>
+{% endif %}
+<ul>
+  {% for prod in products %}
+    <li>
+      {{ prod.name }}
+      {% if current_user.is_authenticated and prod.user_id == current_user.id %}
+        <a href="{{ url_for('product.edit_product', productid=prod.id) }}">Edit</a>
+      {% endif %}
+    </li>
+  {% endfor %}
+</ul>
+{% endblock %}
