@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Products{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+{% if current_user.is_authenticated %}
+  <a href="{{ url_for('argument.add_argument') }}">Add Product</a>
+{% endif %}
+
+{% endblock %}

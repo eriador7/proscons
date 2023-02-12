@@ -30,6 +30,7 @@ def add_product():
         db.session.commit()
         flash(f"Successfully created {p.name}")
         return redirect(url_for("index.index"))
+    form.company.choices.insert(0, (None, "-- Please select --"))
     return render_template("product/add.html", form=form)
 
 @bp.route("/edit/<productid>", methods=["GET", "POST"])

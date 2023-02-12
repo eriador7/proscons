@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Edit Product{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<form action="/product/edit/{{ id }}" method="POST" enctype="multipart/form-data">
+  {% if imgdata %}
+    <img src="data:image/png;base64,{{ imgdata }}" />
+  {% endif %}
+  {{ form.csrf_token() }}
+  {{ form.name.label }} {{ form.name() }}
+  {{ form.description.label }} {{ form.description() }}
+  {{ form.company.label }}  {{ form.company() }}
+  {{ form.image.label }} {{ form.image() }}
+  {{ form.submit() }}
+</form>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Add Product{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<form action="/product/add" method="POST" enctype="multipart/form-data">
+  {{ form.csrf_token() }}
+  {{ form.name.label }} {% for error in form.name.errors %}<span>{{ error }}</span>{% endfor %} {{ form.name() }}
+  {{ form.description.label }} {% for error in form.description.errors %}<span>{{ error }}</span>{% endfor %} {{ form.description() }}
+  {{ form.company.label }} {% for error in form.company.errors %}<span>{{ error }}</span>{% endfor %} {{ form.company() }}
+  {{ form.image.label }} {% for error in form.image.errors %}<span>{{ error }}</span>{% endfor %} {{ form.image() }}
+  {{ form.submit() }}
+</form>
+{% endblock %}

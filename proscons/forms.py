@@ -5,6 +5,8 @@ from flask_wtf.file import FileAllowed
 from . import db
 from .model import Company
 
+# TODO add validator functions `validate_fieldname` for registering
+
 # Übernommen
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -37,5 +39,8 @@ class CompanyForm(FlaskForm):
 
 
 # Eigententwicklung
-class Argument(FlaskForm):
-    pass
+class ArgumentForm(FlaskForm):
+    comment = TextAreaField("Comment", validators=[DataRequired()])
+    pro_product = SelectField("Pro Product")
+    con_product = SelectField("Con Product")
+    submit = SubmitField()

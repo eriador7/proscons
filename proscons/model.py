@@ -2,13 +2,6 @@ from proscons import db
 from flask_login import UserMixin
 from . import login
 
-# Eigententwicklung
-procons = db.Table('procons',
-    db.Column('arg_id', db.Integer, db.ForeignKey('argument.id'), primary_key=True),
-    db.Column('prod_pro_id', db.Integer, db.ForeignKey('product.id'), primary_key=True),
-    db.Column('prod_con_id', db.Integer, db.ForeignKey('product.id'), primary_key=True)
-)
-
 # Eigententwicklung / Übernommen
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -33,6 +26,15 @@ class Company(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 # Eigententwicklung
+class Argument(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    comment = db.Column(db.String, unique=True, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    date_created = db.Column(db.DateTime, nullable=False)
+    pro_prod_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
+    con_prod_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
+
+# Eigententwicklung
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True, nullable=False)
@@ -41,10 +43,14 @@ class Product(db.Model):
     company_id = db.Column(db.Integer, db.ForeignKey('company.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     company_id = db.Column(db.Integer, db.ForeignKey('company.id'), nullable=False)
-
-# Eigententwicklung
-class Argument(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    comment = db.Column(db.String, unique=True, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    date_created = db.Column(db.DateTime, nullable=False)
+    # https://stackoverflow.com/a/5652169
+    pro_args = db.relationship(
+        'Argument',
+        primaryjoin=Argument.pro_prod_id==id,
+        backref="pro_prod"
+    )
+    con_args = db.relationship(
+        'Argument',
+        primaryjoin=Argument.con_prod_id==id,
+        backref="con_prod"
+    )

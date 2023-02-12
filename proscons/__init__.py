@@ -5,12 +5,15 @@ from flask_login import LoginManager
 from flask import Flask, current_app
 from werkzeug.security import generate_password_hash
 
+# Hauptsächlich übernommen
 db = SQLAlchemy()
 migrate = Migrate()
 login = LoginManager()
+login.login_view = 'auth.login'
+login.login_message = 'Please log in to access this page.'
 from .model import *
 
-# Eigenentwicklung
+# Teilweise eigenentwicklung
 def create_app():
     # create and configure the app
     app = Flask(__name__)
@@ -39,6 +42,9 @@ def create_app():
 
     from . import product
     app.register_blueprint(product.bp)
+
+    from . import argument
+    app.register_blueprint(argument.bp)
 
     return app
 
