@@ -5,6 +5,7 @@
   <h1>PosCons</h1>
   <ul>
     <li><a href="{{ url_for('index.index')}}">Home</a></li>
+    <li><a href="{{ url_for('argument.list_arguments') }}">Arguments</a></li>
     <li><a href="{{ url_for('company.list_companies')}}">Companies</a></li>
     <li><a href="{{ url_for('product.list_products')}}">Products</a></li>
     {% if current_user.is_authenticated %}

@@ -1,5 +1,6 @@
 import os, click
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import text
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask import Flask, current_app
@@ -24,6 +25,7 @@ def create_app():
     login.init_app(app)
 
     app.cli.add_command(init_db_command)
+    app.cli.add_command(reset_all_passwords)
 
     # Blueprints: https://flask.palletsprojects.com/en/2.2.x/tutorial/views/
     """
@@ -52,6 +54,7 @@ def create_app():
 @click.command('init-db')
 def init_db_command():
     """Clear the existing data and create new tables."""
+    """
     admin_user = User()
     admin_user.username = "admin"
     admin_user.email = "admin@localhost"
@@ -61,4 +64,17 @@ def init_db_command():
     db.session.add(admin_user)
     db.session.commit()
     click.echo('Initialized the database.')
+    """
+    cmd = open("data.sql", "r").read()
+    db.session.execute(text(cmd))
+    db.session.commit()
+    # update passwords
+    
+#Eigenentwicklung
+@click.command('pwd-reset')
+def reset_all_passwords():
+    pwd = current_app.config['ADMIN_PWD'] or "changeme"
+    for user in User.query.all():
+        user.password = generate_password_hash(pwd)
+    db.session.commit()
 

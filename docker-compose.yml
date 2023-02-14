@@ -23,4 +23,4 @@ services:
     depends_on:
       - db
     restart: "no"
-    entrypoint: [ "bash", "-c", "sleep 10 && source venv/bin/activate &&  flask db init && flask db migrate && flask db upgrade && flask init-db"]
+    entrypoint: [ "bash", "-c", "sleep 10 && source venv/bin/activate &&  flask db init && flask db migrate && flask db upgrade && flask init-db && flask pwd-reset"]

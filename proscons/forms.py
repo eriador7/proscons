@@ -29,6 +29,10 @@ class ProductForm(FlaskForm):
     company = SelectField("Company")
     image = FileField("Product logo", validators=[FileAllowed(['png'], "Only png images allowed")])
     submit = SubmitField()
+
+    def validate_company(form, field):
+        if field.data == "None":
+            raise ValidationError("Please select a value")
     
 # Eigenentwicklung    
 class CompanyForm(FlaskForm):
@@ -44,3 +48,13 @@ class ArgumentForm(FlaskForm):
     pro_product = SelectField("Pro Product")
     con_product = SelectField("Con Product")
     submit = SubmitField()
+
+    def validate_con_product(form, field):
+        if field.data == "None":
+            raise ValidationError("Please select a value")
+        if field.data == form.pro_product.data:
+            raise ValidationError("Pro and con product cannot be the same")
+
+    def validate_pro_product(form, field):
+        if field.data == "None":
+            raise ValidationError("Please select a value")
