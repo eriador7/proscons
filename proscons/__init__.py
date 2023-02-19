@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask import Flask, current_app
 from werkzeug.security import generate_password_hash
+from flask_bootstrap import Bootstrap
 
 # Hauptsächlich übernommen
 db = SQLAlchemy()
@@ -13,6 +14,7 @@ login = LoginManager()
 login.login_view = 'auth.login'
 login.login_message = 'Please log in to access this page.'
 from .model import *
+
 
 # Teilweise eigenentwicklung
 def create_app():
@@ -23,6 +25,7 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
     login.init_app(app)
+    Bootstrap(app)
 
     app.cli.add_command(init_db_command)
     app.cli.add_command(reset_all_passwords)
@@ -47,6 +50,9 @@ def create_app():
 
     from . import argument
     app.register_blueprint(argument.bp)
+
+    from . import api
+    app.register_blueprint(api.bp)
 
     return app
 

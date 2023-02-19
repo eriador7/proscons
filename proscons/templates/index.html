@@ -4,16 +4,30 @@
   <h1>{% block title %}Home{% endblock %}</h1>
 {% endblock %}
 
-{% block content %}
+{% block app_content %}
 <h2>Newest arguments</h2>
-{% for arg in args %}
-  <div style="width:500px; margin:auto; border:1px solid black; padding: 5px;margin-bottom: 20px;">
-    <div style="text-align: center;"><b>{{ arg.pro_prod.name }} ({{ arg.pro_prod.company.name }})</b> vs <b>{{ arg.con_prod.name }} ({{ arg.con_prod.company.name }})</b></div>
-    <div style="padding-top:10px; padding-bottom:10px;">{{ arg.comment }}</div>
-    <div style="text-align:right; font-style: italic;">by {{ arg.user_created.username }} on {{ arg.date_created }}</div>
-    {% if current_user.id == arg.user_created.id or current_user.is_admin %}
-      <div style="font-size: small;"><a href="#">edit</a> - <a href="#">delete</a></div>
-    {% endif %}
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    {% for arg in args %}
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h4>{{ arg.pro_prod.name }} ({{ arg.pro_prod.company.name }}) vs {{ arg.con_prod.name }} ({{ arg.con_prod.company.name }})</h4>
+        </div>
+        <div class="panel-body">
+          {{ arg.comment }}
+        </div>
+        <div class="panel-footer">
+          <div style="font-size: small; float:left;">
+            {% if current_user.id == arg.user_created.id or current_user.is_admin %}
+              <a href="#">edit</a> - <a href="#">delete</a>
+            {% endif %}
+          </div>
+          <div style="float:right; font-style: italic;">by {{ arg.user_created.username }} on {{ arg.date_created.strftime("%d.%m.%Y %H:%M") }}</div>
+          <div style="clear:both"></div>
+        </div>
+      </div>
+    {% endfor %}
   </div>
-{% endfor %}
+</div>
 {% endblock %}

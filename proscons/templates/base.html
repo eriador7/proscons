@@ -1,8 +1,38 @@
-<!doctype html>
-<title>{% block title %}{% endblock %} - ProsCons</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<nav>
-  <h1>PosCons</h1>
+{% extends "bootstrap/base.html" %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet"
+      href="{{url_for('static', filename='style.css')}}">
+{% endblock %}
+
+{% block title %}This is an example page{% endblock %}
+
+{% block navbar %}
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="{{ url_for('index.index') }}">ProsCons</a>
+    </div>
+
+    <ul class="nav navbar-nav">
+      <li><a href="{{ url_for('argument.list_arguments') }}">Arguments</a></li>
+      <li><a href="{{ url_for('company.list_companies')}}">Companies</a></li>
+      <li><a href="{{ url_for('product.list_products')}}">Products</a></li>
+      </ul>
+
+    <p class="navbar-text navbar-right">
+      {% if current_user.is_authenticated %}
+        Logged in as {{ current_user.username }}
+        <a href="{{ url_for('auth.logout') }}">Log Out</a>
+      {% else %}
+          <a href="{{ url_for('auth.register') }}">Register</a>
+          <a href="{{ url_for('auth.login') }}">Log In</a>
+      {% endif %}
+
+    </p>
+  </div>
+  <!-- <h1>PosCons</h1> 
   <ul>
     <li><a href="{{ url_for('index.index')}}">Home</a></li>
     <li><a href="{{ url_for('argument.list_arguments') }}">Arguments</a></li>
@@ -15,14 +45,21 @@
       <li><a href="{{ url_for('auth.register') }}">Register</a>
       <li><a href="{{ url_for('auth.login') }}">Log In</a>
     {% endif %}
-  </ul>
+  </ul>//-->
 </nav>
-<section class="content">
-  <header>
-    {% block header %}{% endblock %}
-  </header>
+{% endblock %}
+
+{% block content %}
   {% for message in get_flashed_messages() %}
-    <div class="flash">{{ message }}</div>
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <div class="alert alert-info" role="alert">{{ message }}</div>
+      </div>
+    </div>
   {% endfor %}
-  {% block content %}{% endblock %}
-</section>
+  
+  {% block app_content %}{% endblock %}
+{% endblock %}
+
+

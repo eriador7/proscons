@@ -4,7 +4,7 @@
   <h1>{% block title %}Add Company{% endblock %}</h1>
 {% endblock %}
 
-{% block content %}
+{% block app_content %}
 <form action="/company/add" method="POST">
   {{ form.csrf_token() }}
   {{ form.name.label }} {% for error in form.name.errors %}<span>{{ error }}</span>{% endfor %} {{ form.name() }}

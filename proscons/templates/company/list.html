@@ -4,7 +4,7 @@
   <h1>{% block title %}Companies{% endblock %}</h1>
 {% endblock %}
 
-{% block content %}
+{% block app_content %}
 {% if current_user.is_authenticated %}
   <a href="{{ url_for('company.add_company') }}">Add Company</a>
 {% endif %}

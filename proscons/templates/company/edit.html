@@ -4,7 +4,7 @@
   <h1>{% block title %}Edit Company{% endblock %}</h1>
 {% endblock %}
 
-{% block content %}
+{% block app_content %}
 <form action="/company/edit/{{ id }}" method="POST">
   {{ form.csrf_token() }}
   {{ form.name.label }} {{ form.name() }}

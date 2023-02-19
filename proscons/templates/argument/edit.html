@@ -4,7 +4,7 @@
   <h1>{% block title %}Edit Product{% endblock %}</h1>
 {% endblock %}
 
-{% block content %}
+{% block app_content %}
 <form action="/product/edit/{{ id }}" method="POST" enctype="multipart/form-data">
   {% if imgdata %}
     <img src="data:image/png;base64,{{ imgdata }}" />
