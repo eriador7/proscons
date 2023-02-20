@@ -1,16 +1,7 @@
-
 window.onload = function() {
-    $.get("/api/products", function (data) {
-        pro_select = document.getElementById("selected_pro");
-        con_select = document.getElementById("selected_con");
-        data.forEach(prod => {
-            opt = document.createElement("option");
-            opt.value = prod.id;
-            opt.text = prod.name + " (" + prod.company.name + ")";
-            pro_select.add(opt);
-            con_select.add(opt.cloneNode(true));
-        });
-    });
+    selection_changed("pro", true);
+    selection_changed("con", true);
+    update_arguments();
 };
 
 function update_arguments() {
@@ -30,7 +21,7 @@ function update_arguments() {
                 <div class="panel-heading">
                 </div>
                 <div class="panel-body">
-                    <a href="#">Add new Argument for this selection</a>
+                    <a href="/argument/add?pro=${pro_select.value}&con=${con_select.value}">Add new Argument for this selection</a>
                 </div>
             </div>
         `;
@@ -47,10 +38,14 @@ function update_arguments() {
         }
         data.forEach(arg => {
             type = "panel-info";
+            edit = "";
             if (arg.type === "pro") {
                 type = "panel-success";
             } else if (arg.type === "con") {
                 type = "panel-danger";
+            }
+            if (arg.edit_link !== "") {
+                edit = `<a href="${arg.edit_link}">edit</a>`;
             }
             content_div.innerHTML += `
                 <div class="panel ${type}">
@@ -60,7 +55,7 @@ function update_arguments() {
                     <div class="panel-body">${arg.comment}</div>
                     <div class="panel-footer">
                     <div style="font-size: small; float:left;">
-                        <a href="#">edit-link</a>
+                        ${edit}
                     </div>
                     <div style="float:right; font-style: italic;">by ${arg.username_created} on ${arg.date_created_formatted}</div>
                     <div style="clear:both"></div>
@@ -71,7 +66,7 @@ function update_arguments() {
     });
 };
 
-function selection_changed(side) {
+function selection_changed(side, on_init=false) {
     selector = null;
     prod_content_div = null;
     if (side === "pro") {
@@ -87,14 +82,22 @@ function selection_changed(side) {
         prod_content_div.innerHTML = ""
         return;
     }
-    $.get("/api/products/" + selector.value, function(data) {
-        prod_content_div.innerHTML = `
-            <img src="data:image/png;base64,${data.image}" style="max-height:100px; max-width:200px;" />
-            <h3>${data.name} (${data.company.name})</h3>
-            <p style="font-weight:bold;">About ${data.company.name}</p>
-            <p><span style="font-weight:bold;">Country:</span> ${data.company.country}</p>
-            <p font-style="italic">${data.company.description}</p>
-        `;
+    $.ajax({
+        type: "GET",
+        url: "/api/products/" + selector.value,
+        div: prod_content_div,
+        success: function(data) {
+            this.div.innerHTML = `
+                <img src="data:image/png;base64,${data.image}" style="max-height:100px; max-width:200px;" />
+                <h3>${data.name} (${data.company.name})</h3>
+                <p style="font-weight:bold;">About ${data.company.name}</p>
+                <p><span style="font-weight:bold;">Country:</span> ${data.company.country}</p>
+                <p font-style="italic">${data.company.description}</p>
+            `;
+        }
     });
-    update_arguments();
+
+    if (!on_init) {
+        update_arguments();
+    }
 };

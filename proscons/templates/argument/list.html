@@ -28,6 +28,9 @@
   <div class="col-md-3">
     <select id="selected_pro" onchange="selection_changed('pro')">
       <option value="None">-- Please Select --</option>
+      {% for prod in products %}
+        <option value="{{ prod.id }}" {% if prod.id == selected_pro %}selected{% endif %}>{{ prod.name }} ({{ prod.company.name }})</option>
+      {% endfor %}
     </select>
     <div style="padding-top:20px;" id="pro_product_div">
       
@@ -39,6 +42,9 @@
   <div class="col-md-3">
     <select id="selected_con" onchange="selection_changed('con')">
       <option value="None">-- Please Select --</option>
+      {% for prod in products %}
+        <option value="{{ prod.id }}" {% if prod.id == selected_con %}selected{% endif %}>{{ prod.name }} ({{ prod.company.name }})</option>
+      {% endfor %}
     </select>
     <div style="padding-top:20px;" id="con_product_div">
       
