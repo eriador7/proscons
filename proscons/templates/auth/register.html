@@ -1,11 +1,20 @@
 {% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
 
 {% block header %}
   <h1>{% block title %}Register{% endblock %}</h1>
 {% endblock %}
 
 {% block app_content %}
-<form method="POST" action="/auth/register">
+<div class="row">
+  <!-- add empty div to center the form //-->
+  <div class="col-md-3"></div>
+  <div class="col-md-6">
+    {{ wtf.quick_form(form) }}
+  </div>
+</div>
+{#
+  <form method="POST" action="/auth/register">
   {{ form.csrf_token }}
   {{ form.username.label }} 
   {% for error in form.username.errors %}<span>{{ error }}</span>{% endfor %}
@@ -26,4 +35,5 @@
 
   {{ form.submit }}
 </form>
+#}
 {% endblock %}

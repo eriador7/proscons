@@ -1,10 +1,19 @@
 {% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
 
 {% block header %}
   <h1>{% block title %}Edit Product{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
+<div class="row">
+  <!-- add empty div to center the form //-->
+  <div class="col-md-3"></div>
+  <div class="col-md-6">
+    {{ wtf.quick_form(form) }}
+  </div>
+</div>
+{#
 <form action="/product/edit/{{ id }}" method="POST" enctype="multipart/form-data">
   {% if imgdata %}
     <img src="data:image/png;base64,{{ imgdata }}" />
@@ -16,4 +25,5 @@
   {{ form.image.label }} {{ form.image() }}
   {{ form.submit() }}
 </form>
+#}
 {% endblock %}

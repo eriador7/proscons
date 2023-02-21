@@ -16,3 +16,13 @@ body {
 h1, h2, h3 {
     text-align: center;
 }
+
+.panel-editlink {
+    font-size: small;
+    float: left;
+}
+
+.panel-by {
+    float:right;
+    font-style: italic;
+}

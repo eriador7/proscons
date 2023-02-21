@@ -18,12 +18,12 @@
           {{ arg.comment }}
         </div>
         <div class="panel-footer">
-          <div style="font-size: small; float:left;">
+          <div class="panel-editlink">
             {% if current_user.id == arg.user_created.id or current_user.is_admin %}
               <a href="#">edit</a> - <a href="#">delete</a>
             {% endif %}
           </div>
-          <div style="float:right; font-style: italic;">by {{ arg.user_created.username }} on {{ arg.date_created.strftime("%d.%m.%Y %H:%M") }}</div>
+          <div class="panel-by">by {{ arg.user_created.username }} on {{ arg.date_created.strftime("%d.%m.%Y %H:%M") }}</div>
           <div style="clear:both"></div>
         </div>
       </div>

@@ -5,6 +5,47 @@
 {% endblock %}
 
 {% block app_content %}
+{% for i_base in range(0-current_user.is_authenticated,companies|length,4) %}
+  <div class="row">
+    {% for i in range(i_base,i_base+4) %}
+      {% if i < 0 %}
+        <div class="col-md-3">
+          <div class="panel panel-success">
+            <div class="panel-heading">Add</div>
+            <div class="panel-body" style="text-align: center;">
+              <a href="{{ url_for('company.add_company') }}">
+                <p style="font-size: xx-large;">
+                  +
+                </p>
+                Add new company
+              </a>
+            </div>
+          </div>
+        </div>
+      {% elif i < companies|length %}
+        <div class="col-md-3">
+          <div class="panel panel-info">
+            <div class="panel-heading">{{ companies[i].name }}</div>
+            <div class="panel-body">
+              <p><span style="font-weight: bold;">Country:</span> {{ companies[i].country }}</p>
+              {{ companies[i].description }}</div>
+            <div class="panel-footer">
+              <div class="panel-editlink">
+                {% if current_user.is_admin or current_user.id == companies[i].user_id %}
+                  <a href="{{ url_for('company.edit_company', companyid=companies[i].id) }}">edit</a>
+                {% endif %}
+              </div>
+              <div class="panel-by">by {{ companies[i].user_created.username }}</div>
+              <div style="clear:both;"></div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+    <div class="col-md-2"></div>
+  </div>
+{% endfor %}
+{#
 {% if current_user.is_authenticated %}
   <a href="{{ url_for('company.add_company') }}">Add Company</a>
 {% endif %}
@@ -18,4 +59,5 @@
     </li>
   {% endfor %}
 </ul>
+#}
 {% endblock %}

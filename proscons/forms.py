@@ -44,9 +44,9 @@ class CompanyForm(FlaskForm):
 
 # Eigententwicklung
 class ArgumentForm(FlaskForm):
-    comment = TextAreaField("Comment", validators=[DataRequired()])
     pro_product = SelectField("Pro Product")
     con_product = SelectField("Con Product")
+    comment = TextAreaField("Comment", validators=[DataRequired()])
     submit = SubmitField()
 
     def validate_con_product(form, field):

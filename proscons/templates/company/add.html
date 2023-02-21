@@ -1,10 +1,19 @@
 {% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
 
 {% block header %}
   <h1>{% block title %}Add Company{% endblock %}</h1>
 {% endblock %}
 
 {% block app_content %}
+<div class="row">
+  <!-- add empty div to center the form //-->
+  <div class="col-md-3"></div>
+  <div class="col-md-6">
+    {{ wtf.quick_form(form) }}
+  </div>
+</div>
+{#
 <form action="/company/add" method="POST">
   {{ form.csrf_token() }}
   {{ form.name.label }} {% for error in form.name.errors %}<span>{{ error }}</span>{% endfor %} {{ form.name() }}
@@ -12,4 +21,5 @@
   {{ form.country.label }} {% for error in form.country.errors %}<span>{{ error }}</span>{% endfor %} {{ form.country() }}
   {{ form.submit() }}
 </form>
+#}
 {% endblock %}

@@ -1,9 +1,9 @@
-import os, click
+import os, click, base64
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 from flask_migrate import Migrate
 from flask_login import LoginManager
-from flask import Flask, current_app
+from flask import Flask, current_app, app
 from werkzeug.security import generate_password_hash
 from flask_bootstrap import Bootstrap
 
@@ -33,7 +33,7 @@ def create_app():
     # Blueprints: https://flask.palletsprojects.com/en/2.2.x/tutorial/views/
     """
     A Blueprint is a way to organize a group of related views and other code. Rather than registering 
-    iews and other code directly with an application, they are registered with a blueprint. Then the
+    views and other code directly with an application, they are registered with a blueprint. Then the
     blueprint is registered with the application when it is available in the factory function.
     """
     from . import auth
@@ -54,7 +54,12 @@ def create_app():
     from . import api
     app.register_blueprint(api.bp)
 
+    app.add_template_filter(b64encode)
+
     return app
+
+def b64encode(s):
+    return base64.b64encode(s).decode()
 
 #Eigententwicklung
 @click.command('init-db')
