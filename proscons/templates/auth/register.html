@@ -13,27 +13,4 @@
     {{ wtf.quick_form(form) }}
   </div>
 </div>
-{#
-  <form method="POST" action="/auth/register">
-  {{ form.csrf_token }}
-  {{ form.username.label }} 
-  {% for error in form.username.errors %}<span>{{ error }}</span>{% endfor %}
-  {{ form.username(size=20) }}
-
-  {{ form.email.label }}
-  {% for error in form.email.errors %}<span>{{ error }}</span>{% endfor %}
-  {{ form.email(size=20) }}
-
-  {{ form.password.label }}
-  <a href="https://xkcd.com/936/" target="_blank">How to create a secure password?</a>
-  {% for error in form.password.errors %}<span>{{ error }}</span>{% endfor %}
-  {{ form.password(size=20) }}
-
-  {{ form.password2.label }}
-  {% for error in form.password2.errors %}<span>{{ error }}</span>{% endfor %}
-  {{ form.password2(size=20) }}
-
-  {{ form.submit }}
-</form>
-#}
 {% endblock %}

@@ -2,10 +2,8 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, FileField, TextAreaField, SelectField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from flask_wtf.file import FileAllowed
-from . import db
-from .model import Company
-
-# TODO add validator functions `validate_fieldname` for registering
+from .model import User
+from password_strength import PasswordStats
 
 # Übernommen
 class LoginForm(FlaskForm):
@@ -18,9 +16,28 @@ class LoginForm(FlaskForm):
 class RegisterForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('E-Mail', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    password = PasswordField('Password', description="A good password is...", validators=[DataRequired()])
     password2 = PasswordField('Repeat Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField("Register")
+
+    def validate_username(form, field):
+        check_user_exists = User.query.filter_by(username=field.data).scalar()
+        if check_user_exists:
+            raise ValidationError("Username already registered")
+
+    def validate_email(form, field):
+        check_email_exists = User.query.filter_by(email=field.data).scalar()
+        if check_email_exists:
+            raise ValidationError("E-Mail address already registered")
+
+    # Require a strong password, however instead of the usual way
+    # we chose a reasonable check to verify whether the provided
+    # password is strong --> Entropy. Ref: https://xkcd.com/936/
+    def validate_password(form, field):
+        ent = PasswordStats(field.data).entropy_bits
+        if ent < 30:
+            raise ValidationError("Your password is too weak, try making it longer or add more different \
+                symbols/numbers/characters.")
 
 # Eigententwicklung
 class ProductForm(FlaskForm):

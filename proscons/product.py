@@ -29,7 +29,7 @@ def add_product():
         db.session.add(p)
         db.session.commit()
         flash(f"Successfully created {p.name}")
-        return redirect(url_for("index.index"))
+        return redirect(url_for("product.list_products"))
     form.company.choices.insert(0, (None, "-- Please select --"))
     return render_template("product/add.html", form=form)
 
@@ -52,6 +52,7 @@ def edit_product(productid):
             prod.image = form.image.data.stream.read()
         db.session.commit()
         flash("Saved changes")
+        return redirect(url_for("product.list_products"))
     form.company.data = str(prod.company_id)
     imgdata = None
     if prod.image:

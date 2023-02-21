@@ -45,4 +45,5 @@ def edit_company(companyid):
         comp.name = form.name.data
         db.session.commit()
         flash("Saved changes")
+        return redirect(url_for('company.list_companies'))
     return render_template("company/edit.html", form=form, id=comp.id)

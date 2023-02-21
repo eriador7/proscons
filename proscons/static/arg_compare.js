@@ -28,7 +28,7 @@ function update_arguments() {
 
         if (data.length === 0) {
             content_div.innerHTML += `
-                <div class="panel panel-info">
+                <div class="panel panel-warning">
                     <div class="panel-heading">
                     </div>
                         <div class="panel-body">No arguments for this selection (yet)</div>

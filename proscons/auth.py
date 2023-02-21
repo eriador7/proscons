@@ -45,21 +45,6 @@ def register():
         return redirect(url_for("index.index"))
     form = RegisterForm()    
     if form.validate_on_submit():
-        check_username = User.query.filter_by(username=form.username.data).scalar()
-        if check_username:
-            flash("Username already registered")
-            return render_template("auth/register.html", form=form)
-        check_email = User.query.filter_by(email=form.email.data).scalar()
-        if check_email:
-            flash("E-Mail address already registered")
-            return render_template("auth/register.html", form=form)
-        # Require a strong password, however instead of the usual way
-        # we chose a reasonable check to verify whether the provided
-        # password is strong --> Entropy. Ref: https://xkcd.com/936/
-        ent = PasswordStats(form.password.data).entropy_bits
-        if ent < 30:
-            flash("Your password is too weak, try making it longer or add more different symbols/numbers/characters")
-            return render_template("auth/register.html", form=form)
         new_user = User()
         new_user.username = form.username.data
         new_user.email = form.email.data
