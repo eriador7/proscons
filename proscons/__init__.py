@@ -18,7 +18,6 @@ from .model import *
 
 # Teilweise eigenentwicklung
 def create_app():
-    # create and configure the app
     app = Flask(__name__)
     app.config.from_prefixed_env()
 
@@ -58,23 +57,16 @@ def create_app():
 
     return app
 
+#Eigententwicklung
 def b64encode(s):
     return base64.b64encode(s).decode()
 
 #Eigententwicklung
 @click.command('init-db')
 def init_db_command():
-    """Clear the existing data and create new tables."""
     """
-    admin_user = User()
-    admin_user.username = "admin"
-    admin_user.email = "admin@localhost"
-    pwd = current_app.config['ADMIN_PWD'] or "changeme"
-    admin_user.password = generate_password_hash(pwd)
-    admin_user.is_admin = True
-    db.session.add(admin_user)
-    db.session.commit()
-    click.echo('Initialized the database.')
+    Fills the application with some demo-data. Only callable from command line.
+    Data is read from data.sql.
     """
     cmd = open("data.sql", "r").read()
     db.session.execute(text(cmd))
@@ -84,6 +76,10 @@ def init_db_command():
 #Eigenentwicklung
 @click.command('pwd-reset')
 def reset_all_passwords():
+    """
+    Sets initial passwords for users from init-data. Only callable from command line.
+    Password to set can be set using environment variable `ADMIN_PWD`.
+    """
     pwd = current_app.config['ADMIN_PWD'] or "changeme"
     for user in User.query.all():
         user.password = generate_password_hash(pwd)

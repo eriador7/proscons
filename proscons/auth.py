@@ -1,3 +1,4 @@
+# Übernommen (mit kleinen Anpassungen)
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, abort
 )
@@ -11,7 +12,6 @@ from . import db
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
-# Übernommen
 @bp.route("/login", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:

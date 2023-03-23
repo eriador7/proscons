@@ -1,3 +1,5 @@
+# Eigenentwicklung
+
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, abort
 )
@@ -17,7 +19,6 @@ def list_products():
 @login_required
 def add_product():
     form = ProductForm()
-    #form.submit.label.text = "Add Product"
     form.company.choices = [(c.id, c.name) for c in Company.query.order_by(Company.name).all()]
     if form.validate_on_submit():
         p = Product()
@@ -43,7 +44,6 @@ def edit_product(productid):
     if not (curr_user.is_admin or curr_user.id == prod.user_id):
         return abort(401)
     form = ProductForm(obj=prod)
-    #form.submit.label.text = "Update Product"
     form.company.choices = [(c.id, c.name) for c in Company.query.order_by(Company.name).all()]
     if form.validate_on_submit():
         prod.description = form.description.data

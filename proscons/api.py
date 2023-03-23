@@ -1,3 +1,4 @@
+#Eigententwicklung
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, abort, jsonify
 )
@@ -8,6 +9,13 @@ from base64 import b64encode
 from operator import itemgetter
 
 bp = Blueprint("api", __name__, url_prefix="/api")
+
+
+"""
+GET /api/compare?pro=[pro_id]&con=[con_id] : Returns a list of arguments for selected pro/con products.
+GET /api/products                          : Returns a list of products.
+GET /api/products/[prod_id]                : Returns details of a single product (including image data)
+"""
 
 @bp.route("compare")
 def compare_products():

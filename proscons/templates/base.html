@@ -1,3 +1,5 @@
+{# Übernommen und gekürzt #}
+
 {% extends "bootstrap/base.html" %}
 
 {% block styles %}
@@ -32,20 +34,6 @@
 
     </p>
   </div>
-  <!-- <h1>PosCons</h1> 
-  <ul>
-    <li><a href="{{ url_for('index.index')}}">Home</a></li>
-    <li><a href="{{ url_for('argument.list_arguments') }}">Arguments</a></li>
-    <li><a href="{{ url_for('company.list_companies')}}">Companies</a></li>
-    <li><a href="{{ url_for('product.list_products')}}">Products</a></li>
-    {% if current_user.is_authenticated %}
-      <li><span>Logged in as {{ current_user.username }}</span>
-      <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
-    {% else %}
-      <li><a href="{{ url_for('auth.register') }}">Register</a>
-      <li><a href="{{ url_for('auth.login') }}">Log In</a>
-    {% endif %}
-  </ul>//-->
 </nav>
 {% endblock %}
 
