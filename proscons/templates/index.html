@@ -20,7 +20,7 @@
         <div class="panel-footer">
           <div class="panel-editlink">
             {% if current_user.id == arg.user_created.id or current_user.is_admin %}
-              <a href="#">edit</a> - <a href="#">delete</a>
+              <a href="{{url_for('argument.edit_argument', argumentid=arg.id)}}">edit</a>
             {% endif %}
           </div>
           <div class="panel-by">by {{ arg.user_created.username }} on {{ arg.date_created.strftime("%d.%m.%Y %H:%M") }}</div>

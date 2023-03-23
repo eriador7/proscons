@@ -4,6 +4,7 @@ from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from flask_wtf.file import FileAllowed
 from .model import User
 from password_strength import PasswordStats
+from flask import Markup
 
 # Übernommen
 class LoginForm(FlaskForm):
@@ -16,7 +17,8 @@ class LoginForm(FlaskForm):
 class RegisterForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('E-Mail', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', description="A good password is...", validators=[DataRequired()])
+    # Quelle (Markup): https://stackoverflow.com/questions/58534459/how-to-render-make-clickable-a-url-in-a-stringfield-using-wtforms
+    password = PasswordField('Password', description=Markup("<a href=\"https://xkcd.com/936/\" target=\"_blank\">How to choose a good password</a>"), validators=[DataRequired()])
     password2 = PasswordField('Repeat Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField("Register")
 

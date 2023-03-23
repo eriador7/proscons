@@ -32,7 +32,6 @@ def compare_products():
     if errs:
         return {"errors":errs}, 400
     
-    # TODO: Ordering
     args = [arg.to_dict(is_pro=True) for arg in pro.pro_args if arg.con_prod.id == con.id]
     args.extend([arg.to_dict(is_con=True) for arg in pro.con_args if arg.pro_prod.id == con.id])
     args.sort(key=itemgetter("date_created"), reverse=True)

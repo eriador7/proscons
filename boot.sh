@@ -1,3 +1,5 @@
 #!/bin/bash
 source venv/bin/activate
-flask run --port 5000 --host 0.0.0.0
+gunicorn -b :5000 -w 4 'proscons:create_app()' --access-logfile - --error-logfile -
+
+# partially copied from microblog

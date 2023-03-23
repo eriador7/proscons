@@ -19,6 +19,7 @@ RUN chmod +x boot.sh
 ENV FLASK_APP proscons
 
 RUN chown -R proscons:proscons ./
+#RUN venv/bin/pip install ./proscons
 USER proscons
 
 EXPOSE 5000

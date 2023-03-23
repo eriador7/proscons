@@ -4,3 +4,4 @@ instance/
 .vscode/
 __pycache__
 migrations/
+*.egg-info/

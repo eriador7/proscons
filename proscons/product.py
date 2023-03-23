@@ -3,7 +3,7 @@ from flask import (
 )
 from . import db
 from .forms import ProductForm
-from .model import Company, Product
+from .model import Company, Product, User
 from flask_login import login_required, current_user
 from base64 import b64encode
 
@@ -39,8 +39,9 @@ def edit_product(productid):
     prod = db.session.query(Product).get(productid)
     if not prod:
         return abort(404)
-    if current_user.id != prod.user_id:
-        return abort(403)
+    curr_user = User.query.get(current_user.get_id())
+    if not (curr_user.is_admin or curr_user.id == prod.user_id):
+        return abort(401)
     form = ProductForm(obj=prod)
     #form.submit.label.text = "Update Product"
     form.company.choices = [(c.id, c.name) for c in Company.query.order_by(Company.name).all()]

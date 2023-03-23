@@ -3,7 +3,7 @@ from flask import (
 )
 from . import db
 from .forms import CompanyForm
-from .model import Company
+from .model import Company, User
 from flask_login import login_required, current_user
 
 bp = Blueprint('company', __name__, url_prefix='/company')
@@ -35,10 +35,11 @@ def edit_company(companyid):
     comp = db.session.query(Company).get(companyid)
     if not comp:
         return abort(404)
-    if current_user.id != comp.user_id:
-        return abort(403)
+    curr_user = User.query.get(current_user.get_id())
+    if not (curr_user.is_admin or curr_user.id == comp.user_id):
+        return abort(401)
     form = CompanyForm(obj=comp)
-    form.submit.label.text = "Update Product"
+    form.submit.label.text = "Update Company"
     if form.validate_on_submit():
         comp.description = form.description.data
         comp.country = form.country.data
